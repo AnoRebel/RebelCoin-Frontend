@@ -1,20 +1,20 @@
 #!/usr/bin/env python3.5
 import json
-import logging
+# import logging
 import os
 import time
 from typing import List
 from datetime import datetime
 
-import werkzeug.serving
+# import werkzeug.serving
 from fastecdsa import curve, ecdsa, keys
 from flask import Flask, jsonify, redirect, render_template, request, url_for
-from gevent import pywsgi
+# from gevent import pywsgi
 
 from blockchain import Blockchain, Transaction
-from console_log import ConsoleLog
+# from console_log import ConsoleLog
 from flask_cors import *
-from geventwebsocket.handler import WebSocketHandler
+# from geventwebsocket.handler import WebSocketHandler
 
 # Initailizing the Flask app
 APP = Flask(__name__)
@@ -25,8 +25,8 @@ cors = CORS(APP)
 
 # Initializing and configuring the logger
 # for both Python and Web Console
-logger = logging.getLogger('console')
-logger.setLevel(logging.DEBUG)
+# logger = logging.getLogger('console')
+# logger.setLevel(logging.DEBUG)
 
 # Your private key goes here
 PRIVATE_KEY = keys.gen_private_key(curve.secp256k1)
@@ -115,7 +115,7 @@ def dismissInfo():
     """
     global SHOWINFOMESSAGE
     SHOWINFOMESSAGE = request.args.get('value')
-    logger.info({'status': 200, 'message': 'Dissmised'})
+    # logger.info({'status': 200, 'message': 'Dissmised'})
     return jsonify({'status': 200, 'message': 'Dissmised'})
 
 # Route to set the settings value
@@ -128,10 +128,10 @@ def set_settings():
     global DIFFICULTY, REWARD
     DIFFICULTY = request.args.get('difficulty', DIFFICULTY, type=int)
     REWARD = request.args.get('reward', REWARD, type=int)
-    print(DIFFICULTY)
-    print(REWARD)
-    logger.debug(DIFFICULTY)
-    logger.debug(REWARD)
+    # print(DIFFICULTY)
+    # print(REWARD)
+    # logger.debug(DIFFICULTY)
+    # logger.debug(REWARD)
     return jsonify(difficulty=DIFFICULTY, reward=REWARD)
 
 # Route to create, sign and add Transactions to mining queue
@@ -166,7 +166,7 @@ def mine_transactions():
     global JUSTADDEDTX
     JUSTADDEDTX = False
     blockchain.minePendingTransactions(myWalletAddress)
-    logger.info({'status': 200, 'message': 'Mined'})
+    # logger.info({'status': 200, 'message': 'Mined'})
     return jsonify({'status': 200, 'message': 'Mined'})
 ## END AJAX ROUTES
 
@@ -247,7 +247,7 @@ def not_found_error(error):
     """
     Render a custom 404 page that looks better than the original
     """
-    logger.error('Sorry, page not found..!')
+    # logger.error('Sorry, page not found..!')
     return render_template('404.html'), 404
 
 # 500 error handling template
@@ -256,25 +256,26 @@ def internal_server_error(error):
     """
     Render a custom 500 page that looks better than the original
     """
-    logger.error('Server error, sorry, try reloading..!')
+    # logger.error('Server error, sorry, try reloading..!')
     return render_template('500.html'), 500
 
 # Create a console logging app by passing the app and
 # the logger object to the ConsoleLog class
-APP = ConsoleLog(APP, logger)
+# APP = ConsoleLog(APP, logger)
 
 # Custom main for the Web console logging to work
 # it intercepts the logger and uses a web socket to
 # padd the data to the console log of the browser(Something like that)
-@werkzeug.serving.run_with_reloader
-def main():
-    """
-    Creates a wsgi server for our app with a handler web socket for the logger
-    """
-    server = pywsgi.WSGIServer(("", 5000), APP, handler_class=WebSocketHandler)
-    server.serve_forever()
+# @werkzeug.serving.run_with_reloader
+# def main():
+#     """
+#     Creates a wsgi server for our app with a handler web socket for the logger
+#     """
+#     server = pywsgi.WSGIServer(("", 5000), APP, handler_class=WebSocketHandler)
+#     server.serve_forever()
 
 
 # The main runnable function, calls the main function
 if __name__ == '__main__':
-    main()
+    # main()
+    APP.run()
