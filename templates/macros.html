@@ -1,0 +1,74 @@
+<!-- This is a reusable component(called macro in Jinja2), which displays
+the table of transcations passed to it -->
+{% macro transactions_table(transactions) %}
+
+{% if len(transactions) == 0 %}
+    <p>This block has no transactions</p>
+{% endif %}
+
+{% if len(transactions) > 0 %}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Valid?</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for index, tx in enumerate(transactions) %}
+        <tr>
+            <td>{{ index }}</td>
+            <td class="text-truncate" style="max-width: 100px;">
+
+                {% if tx.fromAddress != None %}
+                    <a href="{{ url_for('wallet', address=tx.fromAddress) }}">{{ tx.fromAddress }}</a>
+                {% endif %}
+
+                {% if tx.fromAddress == None %}
+                    <span>System</span>
+                {% endif %}
+
+                {% if addressIsFromCurrentUser(tx.fromAddress) %}
+                    <span class="text-muted">
+                        <br><small>(That's yours!)</small>
+                    </span>
+                {% endif %}
+            </td>
+            <td class="text-truncate" style="max-width: 100px;">
+                <a href="{{ url_for('wallet', address=tx.toAddress) }}">{{ tx.toAddress }}</a>
+
+                {% if addressIsFromCurrentUser(tx.toAddress) %}
+                    <span class="text-muted">
+                        <br><small>(That's yours!)</small>
+                    </span>
+                {% endif %}
+            </td>
+            <td>
+                {{ tx.amount }}
+                {% if tx.fromAddress == None %}
+                    <span class="text-muted"><br><small>(Block reward)</small></span>
+                {% endif %}
+            </td>
+            <td>
+                {{ tx.timestamp }}<br>
+                <span class="text-muted"><small>{{ convert(tx.timestamp) }}</small></span>
+            </td>
+            <td style="max-width: 40px;">
+                {% if tx.isValid() %}
+                    <span>✓</span>
+                {% endif %}
+                {% if not tx.isValid() %}
+                    <span>✗</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endmacro %}

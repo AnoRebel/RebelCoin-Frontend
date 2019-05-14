@@ -1,0 +1,44 @@
+<!-- Wallet details template page -->
+{% extends "base.html" %}
+
+{% block title %}
+Wallet - Details
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Wallet details</h1>
+
+    <p style="word-wrap:break-word;">
+        <strong>Address:</strong>
+        <br>
+        {{ walletAddress }}
+        
+        <!-- Checks if address is users and adds the little text -->
+        {% if addressIsFromCurrentUser(walletAddress) %}
+            <span class="text-muted">
+                <br><small>(That's yours!)</small>
+            </span>
+        {% endif %}
+    </p>
+
+    <p>
+        <strong>Balance:</strong>
+        <br>
+        {{ balance }}
+    </p>
+
+    <hr>
+
+    <!-- Importing the macro for the transactions table -->
+    {% from "macros.html" import transactions_table with context %}
+
+    <h1>Transactions</h1>
+    {% if len(transactions) == 0 %}
+        <p>This wallet has made no transactions (yet)</p>
+    {% endif %}
+    {{ transactions_table(transactions) }}
+</div>
+
+{% endblock %}

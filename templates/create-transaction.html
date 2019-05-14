@@ -1,0 +1,49 @@
+<!-- Template to create transactions -->
+{% extends "base.html" %}
+
+{% block title %}
+Create and Sign new Transaction
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Create transaction</h1>
+    <p>Transfer some money to someone!</p>
+
+    <br>
+
+    <!-- This form submits to the server the form values containing all details needed for a transaction -->
+    <form method="POST" action={{ url_for('create_transaction') }}>
+        <div class="form-group">
+            <label for="fromAddress">From address</label>
+            <input type="text" class="form-control" name="fromAddress" aria-describedby="fromAddressHelp"
+                value={{ ownAddress }} disabled>
+            <small id="fromAddressHelp" class="form-text text-muted">
+                This is your wallet address. You cannot change it because you can only spend your own coins.
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="toAddress">To address</label>
+            <input type="text" class="form-control" name="toAddress" aria-describedby="toAddressHelp" required>
+            <small id="toAddressHelp" class="form-text text-muted">
+                The address of the wallet where you want to send the money to. You can type random text here (if you are not
+                interested in recovering the funds)
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" class="form-control" name="amount" aria-describedby="amountHelp" required>
+            <small id="amountHelp" class="form-text text-muted">
+                You can transfer any amount. Account balance is not checked in this demo. Have at it!
+            </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign & create transaction</button>
+    </form>
+
+</div>
+
+{% endblock %}}

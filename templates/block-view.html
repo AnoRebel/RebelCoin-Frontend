@@ -1,0 +1,24 @@
+<!-- Main container for the blocks -->
+<div class="container">
+	<h1>Blocks on chain</h1>
+	<p>Each card represents a block on the chain. Click on a block to see the transactions stored inside.</p>
+</div>
+
+<div class="container" style="overflow-x: scroll;white-space: nowrap;">
+    {% for block in blocks %}
+        {% include "block.html" %}
+    {% endfor %}
+</div>
+
+<br><br>
+
+<!-- Importing the macro for the transactions table -->
+{% from "macros.html" import transactions_table with context %}
+
+<!-- This part displays the transactions for each block clicked/selected -->
+<div class="container">
+    <h1>Transactions inside block <small><strong id="transaction">{{ selectedBlock }}</strong></small></h1>
+    <div id="trans-table">
+        {{ transactions_table(transactions) }}
+    </div>
+</div>

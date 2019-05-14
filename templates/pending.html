@@ -1,0 +1,44 @@
+<!-- Template for all the queued/pending transactions in the blockchain -->
+{% extends "base.html" %}
+
+{% block title %}
+Pending Transaction(s)
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    <!-- Alert that appears whenever transaction is added and dissappears in 4 seconds -->
+    {% if justAddedTx == True %}
+    <div class="alert alert-success show fade" role="alert" id="addedTrans">
+        Transaction created successfully!
+    </div>
+    {% endif %}
+
+    <h1>Pending transactions</h1>
+    <p>These transactions are waiting to be included in the next block. Next block is created when you start the mining
+        process.</p>
+
+    <!-- Importing the macro for the transactions table -->
+    {% from "macros.html" import transactions_table with context %}
+
+    {% if len(pendingTransactions) == 0 %}
+        <p>There are no pending transactions (yet)</p>
+    {% endif %}
+    {{ transactions_table(pendingTransactions) }}
+
+    <!-- Mining button is only visible if there are pending transactions -->
+    {% if len(pendingTransactions) > 0 %}
+    <button class="btn btn-primary" id="minePendingTransactions">
+        Start mining
+    </button>
+    {% endif %}
+
+    <!-- A little alert to show when mining is in progress -->
+    <div id="miningInProgress" hidden>
+        Mining block.. Hang on...
+    </div>
+</div>
+
+{% endblock %}

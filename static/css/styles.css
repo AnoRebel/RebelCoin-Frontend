@@ -1,0 +1,6 @@
+/* Resizing the cards not to cover the whole page */
+.card {
+    width: 18rem;
+    display: inline-block;
+    margin: 0 10px 0 0;
+}

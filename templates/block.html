@@ -1,0 +1,45 @@
+<!-- The blocks that display each transactions in a nice card view -->
+{% if str(selectedBlock) == str(block.id) %}
+<div class="card border-primary" data-value="{{ block.id }}">
+{% else %}
+<div class="card" data-value="{{ block.id }}">
+{% endif %}
+    <div class="card-body">
+        <h5 class="card-title">Block {{ block.id }} 
+            {% if str(block.previousHash) == str(0) %}<small class="text-muted">(Genesis block)</small>{% endif %}
+        </h5>
+    </div>
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <span class="">Hash</span>
+            <br>
+            <div class="text-truncate" style="color: #{{ block.hash[0:6] }};">
+                <small title={{ block.hash }}>{{ block.hash }}</small>
+            </div>
+
+            <br>
+            <span class="">Hash of previous block</span>
+            <br>
+
+            <div class="text-truncate" style="color: #{{ block.previousHash[0:6] }};">
+                <small title={{ block.previousHash }}>{{ block.previousHash }}</small>
+            </div>
+        </li>
+
+        <li class="list-group-item">
+            <span class="">Nonce</span><br>
+            <div class="text-truncate text-muted">
+                <small>{{ block.nonce }}</small>
+            </div>
+        </li>
+
+        <li class="list-group-item">
+            <span class="">Timestamp</span><br>
+            <div class="text-truncate text-muted">
+                <small>{{ block.timestamp }}</small><br>
+                <span class="text-muted"><small>{{ convert(block.timestamp) }}</small></span>
+            </div>
+        </li>
+    </ul>
+</div>
