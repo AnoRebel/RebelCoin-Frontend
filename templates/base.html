@@ -27,6 +27,8 @@
   <link rel="stylesheet" media="handheld" href="{{ url_for('static', filename='css/handheld.css') }}">
   <!-- Boorstrap CSS CDN -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Progressbar CSS CDN -->
+  <link rel='stylesheet' href='https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.css' />
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
@@ -116,6 +118,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+    <!-- Progressbar JS CDN -->
+    <script src="https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.js"></script>
     <!-- Global variable for the Root URL value -->
     <script type="text/javascript">
        $BASE_URL = {{ request.url_root|tojson|safe }};
