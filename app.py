@@ -76,8 +76,8 @@ BLOCKS = blockchain.chain
 SELECTEDBLOCK = 0
 SHOWINFOMESSAGE = True
 TRANSACTIONS = []
-DIFFICULTY = blockchain.difficulty
-REWARD = blockchain.miningReward
+# DIFFICULTY = blockchain.difficulty
+# REWARD = blockchain.miningReward
 JUSTADDEDTX = False
 NEWTX = None
 
@@ -125,14 +125,14 @@ def set_settings():
     """
     Sets the difficulty and reward values for mining from the page to the code
     """
-    global DIFFICULTY, REWARD
-    DIFFICULTY = request.args.get('difficulty', DIFFICULTY, type=int)
-    REWARD = request.args.get('reward', REWARD, type=int)
+    # global DIFFICULTY, REWARD
+    blockchain.difficulty = request.args.get('difficulty', blockchain.difficulty, type=int)
+    blockchain.miningReward = request.args.get('reward', blockchain.miningReward, type=int)
     # print(DIFFICULTY)
     # print(REWARD)
     # logger.debug(DIFFICULTY)
     # logger.debug(REWARD)
-    return jsonify(difficulty=DIFFICULTY, reward=REWARD)
+    return jsonify(difficulty=blockchain.difficulty, reward=blockchain.miningReward)
 
 # Route to create, sign and add Transactions to mining queue
 @APP.route('/_create_transaction', methods=['POST'])
@@ -191,7 +191,7 @@ def settings():
     """
     Displays the template to set the difficulty and reward values
     """
-    return render_template('settings.html', difficulty=DIFFICULTY, reward=REWARD)
+    return render_template('settings.html', difficulty=blockchain.difficulty, reward=blockchain.miningReward)
 
 # Route to the transaction creation form
 @APP.route('/new/transaction')
