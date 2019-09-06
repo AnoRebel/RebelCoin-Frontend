@@ -13,5 +13,5 @@ MarkupSafe==1.1.1
 pkg-resources==0.0.0
 six==1.12.0
 termcolor==1.1.0
-Werkzeug==0.15.2
+Werkzeug==0.15.3
 wsgigzip==0.1.4
