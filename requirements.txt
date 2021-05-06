@@ -3,7 +3,7 @@ console-log==0.2.10
 console-logging==0.0.5.0
 fastecdsa==1.7.3
 Flask==1.0.2
-Flask-Cors==3.0.7
+Flask-Cors==3.0.9
 gevent==1.4.0
 gevent-websocket==0.10.1
 greenlet==0.4.15
