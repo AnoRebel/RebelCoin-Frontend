@@ -66,12 +66,13 @@ blockchain.minePendingTransactions(myWalletAddress)
 ### End Demo Transactions
 
 # Store all wallet keys(incase you use more than one)
-walletKeys = []
-walletKeys.append({\
-    'name': 'Me',\
-    'PrivateKey': hex(PRIVATE_KEY),\
-    'PublicKey': hex(int(str(PUBLIC_KEY.x)+str(PUBLIC_KEY.y)))\
-    })
+walletKeys = [
+    {
+        'name': 'Me',
+        'PrivateKey': hex(PRIVATE_KEY),
+        'PublicKey': hex(int(str(PUBLIC_KEY.x) + str(PUBLIC_KEY.y))),
+    }
+]
 BLOCKS = blockchain.chain
 SELECTEDBLOCK = 0
 SHOWINFOMESSAGE = True
@@ -231,13 +232,12 @@ def context_processor():
         Converts the time value(either int or str) into human readable
         time and date
         """
-        value = time.ctime(int(timestamp))
+        value = time.ctime(timestamp)
         return value
 
     def addressIsFromCurrentUser(address: str) -> bool:
-        if address == myWalletAddress:
-            return True
-        return False
+        return address == myWalletAddress
+
     return dict(blockchain=blockchain, showInfoMessage=SHOWINFOMESSAGE, convert=convert, year=YEAR, selectedBlock=SELECTEDBLOCK, transactions=TRANSACTIONS, addressIsFromCurrentUser=addressIsFromCurrentUser, enumerate=enumerate, str=str, type=type, json=json, len=len)
 
 ## Custom error handling pages, just for fun

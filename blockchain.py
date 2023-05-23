@@ -30,7 +30,7 @@ class CurvePoint:
     # you can pass a different curve if used different, but i doubt it
     # would look the same
     def __str__(self) -> str:
-        return 'X: {}\nY: {}\n(On curve <{}>)'.format(hex(self.x), hex(self.y), 'secp256k1')
+        return f'X: {hex(self.x)}\nY: {hex(self.y)}\n(On curve <secp256k1>)'
 
 
 # Our block class
@@ -78,12 +78,12 @@ class Block:
         # as to the difficulty amount
         # the higher the difficulty, the longer the time taken
         ## TODO - Try using lru_cache function to speed up process(But why!)
-        while self.hash[0:difficulty] != str('0' * difficulty):
+        while self.hash[:difficulty] != str('0' * difficulty):
             # Increment the nonce by 1 each time to see the loop count
             self.nonce += 1
             self.hash = self.calculateHash()
 
-        console.info('Block mined: {}'.format(self.hash))
+        console.info(f'Block mined: {self.hash}')
 
     # Method that checks ifthe transactions in the block are all valid(Incuding Reward)
     def hasValidTransactions(self) -> bool:
@@ -91,12 +91,7 @@ class Block:
         Validates all the transactions inside this block(signature + hash) and
         returns true if everything checks out. False if the block is invalid.
         """
-        # Loop through all availvable transactions
-        for tx in self.transactions:
-            if not tx.isValid():
-                return False
-
-        return True
+        return all(tx.isValid() for tx in self.transactions)
 
 
 # THe transactions in our blocks
@@ -155,7 +150,7 @@ class Transaction:
         """
         # if the sender address is None or empty, it means
         # this is a reward transaction
-        if self.fromAddress == None:
+        if self.fromAddress is None:
             return True
 
         if not self.signature or len(self.signature) == 0:
@@ -268,11 +263,11 @@ class Blockchain:
         # Loop through the chain then
         for block in self.chain:
             # loop through the transactions then
-            for tx in block.transactions:
-                # check where the address is from
-                if (tx.fromAddress == address or tx.toAddress == address):
-                    txs.append(tx)
-
+            txs.extend(
+                tx
+                for tx in block.transactions
+                if (tx.fromAddress == address or tx.toAddress == address)
+            )
         return txs
 
     # This method checks if the chain has been tapered with
